@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Board — Kanban Vanilla JS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">🎯</span>
+                <h1>Task Board</h1>
+            </div>
+
+            <div class="search-area">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Rechercher par titre ou description..." autocomplete="off">
+                </div>
+            </div>
+        </header>
+
+        <div id="error-banner" class="error-banner hidden" role="alert">
+            <span class="error-icon">⚠️</span>
+            <span id="error-message" class="error-message">Erreur réseau : impossible de récupérer les données depuis l'API.</span>
+            <button id="close-error-btn" class="close-error-btn" aria-label="Fermer l'erreur">&times;</button>
+        </div>
+
+        <main class="app-content">
+            
+            <section class="form-section">
+                <div class="form-card">
+                    <h2>Créer une Tâche</h2>
+                    <form id="task-form" novalidate>
+                        <div class="form-group">
+                            <label for="task-title">Titre</label>
+                            <input type="text" id="task-title" placeholder="Ex: 10 mins de gainage" required maxlength="50">
+                            <span class="error-tip" id="title-error">Le titre est requis (max 50 caract.).</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-desc">Description</label>
+                            <textarea id="task-desc" placeholder="Ex: 3 séries de 10 répétitions" required maxlength="200"></textarea>
+                            <span class="error-tip" id="desc-error">La description est requise (max 200 caract.).</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-priority">Priorité</label>
+                            <select id="task-priority" required>
+                                <option value="" disabled selected>Choisir une priorité</option>
+                                <option value="low">Basse (Vert)</option>
+                                <option value="medium">Moyenne (Orange)</option>
+                                <option value="high">Haute (Rouge)</option>
+                            </select>
+                            <span class="error-tip" id="priority-error">Veuillez sélectionner une priorité.</span>
+                        </div>
+                        <button type="submit" class="btn-submit">
+                            <span>Ajouter la tâche</span>
+                            <span class="btn-icon">➕</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="board-section">
+                <div class="kanban-board">
+                    
+                    <div class="kanban-column" id="column-todo" data-status="todo">
+                        <div class="column-header">
+                            <div class="column-title-group">
+                                <span class="column-indicator indicator-todo"></span>
+                                <h3>À faire</h3>
+                            </div>
+                            <span class="column-badge" id="count-todo">0</span>
+                        </div>
+                        <div class="column-cards" id="cards-todo"></div>
+                    </div>
+
+                    <div class="kanban-column" id="column-progress" data-status="progress">
+                        <div class="column-header">
+                            <div class="column-title-group">
+                                <span class="column-indicator indicator-progress"></span>
+                                <h3>En cours</h3>
+                            </div>
+                            <span class="column-badge" id="count-progress">0</span>
+                        </div>
+                        <div class="column-cards" id="cards-progress"></div>
+                    </div>
+
+                    <div class="kanban-column" id="column-done" data-status="done">
+                        <div class="column-header">
+                            <div class="column-title-group">
+                                <span class="column-indicator indicator-done"></span>
+                                <h3>Terminé</h3>
+                            </div>
+                            <span class="column-badge" id="count-done">0</span>
+                        </div>
+                        <div class="column-cards" id="cards-done"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="session-stats">
+                <span class="stats-icon">⚡</span>
+                <span class="stats-text">Actions effectuées dans cette session : <strong id="session-count">0</strong></span>
+            </div>
+            <button id="reset-board-btn" class="btn-reset">
+                <span class="reset-icon">🔄</span>
+                <span>Réinitialiser</span>
+            </button>
+        </footer>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
